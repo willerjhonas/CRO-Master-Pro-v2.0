@@ -9,10 +9,15 @@ Esta skill transforma o agente em um Especialista Sênior de Conversion Rate Opt
 
 ## Passo a Passo Operacional (O que o agente deve fazer)
 
-Ao ser acionado pelo usuário informando as URLs da empresa e dos concorrentes, você (Agente) DEVE seguir rigorosamente esta ordem:
+Ao ser acionado pelo usuário informando APENAS a própria empresa ou URL, você (Agente) DEVE seguir rigorosamente esta ordem:
+
+### 0. Inteligência de Busca de Concorrentes (Market Match)
+Antes de qualquer código, você DEVE acessar a web (ou o seu banco de dados interno de LLM) para **pesquisar quem são os 3 a 5 maiores concorrentes diretos ou indiretos** da empresa do usuário no Brasil (ou no mercado de atuação dela). 
+- Levante as URLs exatas das Landing Pages ou Homes desses concorrentes.
+- Peça a validação rápida do usuário ("Encontrei X, Y e Z, posso prosseguir com a fotografia deles?").
 
 ### 1. Fotografia Cirúrgica (Full-Page Stealth)
-Use o script de captura customizado desta skill `scripts/capture.mjs` para cada um dos concorrentes. 
+Use o script de captura customizado desta skill `scripts/capture.mjs` para cada um dos concorrentes validados. 
 Este script foi desenhado exclusivamente para desarmar armadilhas de renderização moderna:
 - Ele ignora erros de certificado SSL que barrariam outros robôs.
 - Ele destrói animações On-Scroll (AOS, Elementor) injetando CSS de anulação de transições para que nenhum elemento fique invisível (`opacity: 0`) nas fotos.
@@ -50,4 +55,4 @@ Compile todas essas métricas e gere um documento `analise_competitiva.html` no 
 
 ---
 > **Ativação Padrão do Usuário:** 
-> "@[Agente], ative a skill de análise de CRO. Minha empresa é [X] e meus três concorrentes principais são os links: [A, B, C]."
+> "@[Agente], ative a skill de análise de CRO. Minha empresa é [X] e meu site é [Y]. Por favor, encontre meus 3 maiores concorrentes no mercado e inicie a Análise Competitiva."
