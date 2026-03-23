@@ -4,13 +4,23 @@ async function capture(url, name) {
   const browser = await chromium.launch({ headless: true }); 
   const context = await browser.newContext({ 
       viewport: { width: 1440, height: 900 },
-      ignoreHTTPSErrors: true
+      ignoreHTTPSErrors: true,
+      userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
   });
+  
+  // Injeta Stealth scripts para burlar WAF e Bloqueadores de Bot Headless do Elementor/Astra
+  await context.addInitScript(() => {
+      Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+      window.navigator.chrome = { runtime: {} };
+      Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3] });
+  });
+
   const page = await context.newPage();
   
   try {
-    await page.goto(url, { waitUntil: 'load', timeout: 60000 });
-    console.log(`[SKILL: CRO] URL acessada: ${url}`);
+    // networkidle força o navegador a aguardar a rede parar, vital para sites dinâmicos do WP que bloqueavam a leitura
+    await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
+    console.log(`[SKILL: CRO] URL acessada (Stealth): ${url}`);
     
     const nukePopups = async () => {
         try {
@@ -26,7 +36,6 @@ async function capture(url, name) {
             document.querySelectorAll('iframe').forEach(ifr => {
                 if (window.getComputedStyle(ifr).position === 'fixed') ifr.style.setProperty('display', 'none', 'important');
             });
-            // Oculta modais ou overlays visuais invasivos no inicio
             document.querySelectorAll('*').forEach(e => {
                const style = window.getComputedStyle(e);
                if (style.position === 'fixed' && style.zIndex > 50) {
@@ -40,30 +49,25 @@ async function capture(url, name) {
     };
 
     await nukePopups();
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
 
-    // Damos um clique no centro da página para focar a DIV principal com restrição de tela
     await page.mouse.click(720, 450);
 
-    // 1. SCROLL ORGÂNICO! Deixa o layout intacto e rola pra baixo forçando as "iscas" de Lazy Load no sistema da Inspect
-    console.log(`[SKILL: CRO] Rolando a tela para despertar o lazy load...`);
+    console.log(`[SKILL: CRO] Simulando scroll fisico para ativar lazy loaders...`);
     for (let i = 0; i < 20; i++) {
         await nukePopups();
-        // PageDown avança exatamente uma janela do contêiner mais proeminente focado
         await page.keyboard.press('PageDown');
         await page.waitForTimeout(600);
     }
     
-    // Volta rapidamente ao topo sem destrancar layout ainda, pra carregar coisas de hero perdidas
     await page.keyboard.press('Home');
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(1500);
 
-    // 2. A MÁGICA: Agora que todas as imagens estão renderizadas na memória RAM da gaiola "card-termo-wrapper", nós explodimos a gaiola
-    console.log(`[SKILL: CRO] Injetando a Vachina anti-Scroll Lock para esticar o Body...`);
+    console.log(`[SKILL: CRO] Injetando a vacina de transbordamento (Overflow Break)...`);
     await page.evaluate(() => {
         let max = 0;
         let el = document.body;
-        // Encontra o contêiner virtual mestre que manteve os itens escondidos
+        // Identifica e desativa a gaiola do Astra/Elementor (`card-termo-wrapper`, `site-content`, etc)
         document.querySelectorAll('*').forEach(e => {
             if (e.scrollHeight > max && e.scrollHeight > e.clientHeight) {
                 max = e.scrollHeight;
@@ -90,7 +94,6 @@ async function capture(url, name) {
         `;
         document.head.appendChild(style);
         
-        // Destrava estourando a gaiola detectada para os lados/baixo via reflow
         if (el && el !== document.body && el !== document.documentElement) {
             el.setAttribute('data-liberado', 'true');
             el.style.setProperty('overflow', 'visible', 'important');
@@ -100,21 +103,24 @@ async function capture(url, name) {
         }
 
         window.scrollTo(0, 0);
-        // Desaba posições Fixas de rodapés e headers para não se duplicarem por baixo da imagem inteira
         const elements = document.querySelectorAll('*');
         elements.forEach(c => {
             const comp = window.getComputedStyle(c);
             if (comp.position === 'fixed' || comp.position === 'sticky') {
                 c.style.setProperty('position', 'absolute', 'important');
             }
+            // Uma barreira a mais para temas WordPress modernos que travam o wrapper #page
+            if (c.id === 'page' || c.className.includes('ast-container')) {
+                c.style.setProperty('overflow', 'visible', 'important');
+                c.style.setProperty('height', 'auto', 'important');
+            }
         });
     });
 
-    await page.waitForTimeout(3000); // Aguarda tranquilamente o Chrome redesenhar o monstro inteiro
+    await page.waitForTimeout(3000); 
 
-    // Tira print total oficial (Como destruímos a altura dos contêineres, o Body é do tamanho do Universo agora)
     await page.screenshot({ path: name, fullPage: true });
-    console.log(`[SKILL: CRO] Artefato finalizado do header ao footer com sucesso: ${name}`);
+    console.log(`[SKILL: CRO] Artefato salvaguardado: ${name}`);
 
   } catch(e) {
     console.log(`[SKILL: CRO] Erro ao capturar ${name}: ${e.message}`);
