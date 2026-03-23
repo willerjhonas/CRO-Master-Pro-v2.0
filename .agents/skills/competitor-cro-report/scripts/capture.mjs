@@ -12,7 +12,7 @@ async function capture(url, name) {
     await page.goto(url, { waitUntil: 'load', timeout: 60000 });
     console.log(`[SKILL: CRO] URL acessada: ${url}`);
     
-    // Destrói ativamente modais de Cookies e LGPD (Ignorando iFrames)
+    // Mata apenas os cookies e iframes chatos usando CSS basico e click
     const nukePopups = async () => {
         try {
             for (const frame of page.frames()) {
@@ -33,19 +33,29 @@ async function capture(url, name) {
     await nukePopups();
     await page.waitForTimeout(1000);
 
-    // Desliga animacões e abre as travas de root para frameworks (React/Next)
+    // O Antídoto Cirúrgico: Procura a "gaiola de scroll" e estilhaça suas travas
     await page.evaluate(() => {
+        let max = 0;
+        let el = document.body;
+        // Encontra o contêiner virtual que aprisiona o conteúdo
+        document.querySelectorAll('*').forEach(e => {
+            if (e.scrollHeight > max && e.scrollHeight > e.clientHeight) {
+                max = e.scrollHeight;
+                el = e;
+            }
+        });
+        
+        // Destrava o Body/HTML para que possam voltar a crescer organicamente
         const style = document.createElement('style');
         style.innerHTML = `
-            * {
-                animation: none !important;
-                transition: none !important;
-                scroll-behavior: auto !important;
-            }
-            html, body, #root, #__next, .wrapper {
+            html, body {
                 height: auto !important;
                 min-height: 100vh !important;
                 overflow: visible !important;
+                position: static !important;
+                scroll-behavior: auto !important;
+                animation: none !important;
+                transition: none !important;
             }
             [data-aos], .lazy, .elementor-invisible {
                 opacity: 1 !important;
@@ -54,9 +64,18 @@ async function capture(url, name) {
             }
         `;
         document.head.appendChild(style);
+        
+        // Destrava ESPECIFICAMENTE a gaiola para que ela "vaze" pro Body limpo acima
+        if (el && el !== document.body && el !== document.documentElement) {
+            el.style.setProperty('overflow', 'visible', 'important');
+            el.style.setProperty('height', 'auto', 'important');
+            el.style.setProperty('max-height', 'none', 'important');
+            el.style.setProperty('position', 'static', 'important');
+        }
     });
 
-    // Scroll simples da janela inteira (window) descendo do header ao footer para carregar lazy-loading
+    // Como height: auto e overflow: visible foram aplicados, a página agora flui organicamente
+    // O window scroll voltará a ativar lazyloads
     let prevHeight = -1;
     let retries = 0;
     while(retries < 3) {
@@ -68,15 +87,14 @@ async function capture(url, name) {
         await page.waitForTimeout(600);
         
         if (curHeight === prevHeight) {
-            retries++;
+            retries++; 
         } else {
             retries = 0; 
         }
         prevHeight = curHeight;
     }
 
-    // Antes de tirar o print, força o scroll de volta ao TOPO 
-    // e MATA os menus "fixed" para não repetirem na imagem inteira do fullPage
+    // Volta pro topo e converte headers e rodapés "fixed/sticky" para absolutos (Evita repetição no print fullpage)
     await page.evaluate(() => {
         window.scrollTo(0, 0);
         const elements = document.querySelectorAll('*');
@@ -88,11 +106,11 @@ async function capture(url, name) {
         });
     });
 
-    await page.waitForTimeout(1000); // Aguarda layout estabilizar no topo
+    await page.waitForTimeout(1000);
 
-    // O Playwright sozinho cuida da captura da página inteira
+    // Tira print nativo (Agora sim o Playwright vai reconhecer os míticos 7000px de altura)
     await page.screenshot({ path: name, fullPage: true });
-    console.log(`[SKILL: CRO] Artefato salvo com sucesso: ${name}`);
+    console.log(`[SKILL: CRO] Artefato salvo: ${name}`);
 
   } catch(e) {
     console.log(`[SKILL: CRO] Erro ao capturar ${name}: ${e.message}`);
@@ -102,8 +120,5 @@ async function capture(url, name) {
 }
 
 const args = process.argv.slice(2);
-if (args.length >= 2) {
-    capture(args[0], args[1]);
-} else {
-    console.log("Uso: node capture.mjs <URL> <NOME.png>");
-}
+if (args.length >= 2) capture(args[0], args[1]);
+else console.log("Uso: node capture.mjs <URL> <NOME.png>");
