@@ -12,7 +12,6 @@ async function capture(url, name) {
     await page.goto(url, { waitUntil: 'load', timeout: 60000 });
     console.log(`[SKILL: CRO] URL acessada: ${url}`);
     
-    // Mata apenas os cookies e iframes chatos usando CSS basico e click
     const nukePopups = async () => {
         try {
             for (const frame of page.frames()) {
@@ -27,17 +26,44 @@ async function capture(url, name) {
             document.querySelectorAll('iframe').forEach(ifr => {
                 if (window.getComputedStyle(ifr).position === 'fixed') ifr.style.setProperty('display', 'none', 'important');
             });
+            // Oculta modais ou overlays visuais invasivos no inicio
+            document.querySelectorAll('*').forEach(e => {
+               const style = window.getComputedStyle(e);
+               if (style.position === 'fixed' && style.zIndex > 50) {
+                   const txt = e.innerText.toLowerCase();
+                   if (txt.includes('lgpd') || txt.includes('cookie') || txt.includes('privacidade')) {
+                       e.style.setProperty('display', 'none', 'important');
+                   }
+               }
+            });
         });
     };
 
     await nukePopups();
+    await page.waitForTimeout(500);
+
+    // Damos um clique no centro da página para focar a DIV principal com restrição de tela
+    await page.mouse.click(720, 450);
+
+    // 1. SCROLL ORGÂNICO! Deixa o layout intacto e rola pra baixo forçando as "iscas" de Lazy Load no sistema da Inspect
+    console.log(`[SKILL: CRO] Rolando a tela para despertar o lazy load...`);
+    for (let i = 0; i < 20; i++) {
+        await nukePopups();
+        // PageDown avança exatamente uma janela do contêiner mais proeminente focado
+        await page.keyboard.press('PageDown');
+        await page.waitForTimeout(600);
+    }
+    
+    // Volta rapidamente ao topo sem destrancar layout ainda, pra carregar coisas de hero perdidas
+    await page.keyboard.press('Home');
     await page.waitForTimeout(1000);
 
-    // O Antídoto Cirúrgico: Procura a "gaiola de scroll" e estilhaça suas travas
+    // 2. A MÁGICA: Agora que todas as imagens estão renderizadas na memória RAM da gaiola "card-termo-wrapper", nós explodimos a gaiola
+    console.log(`[SKILL: CRO] Injetando a Vachina anti-Scroll Lock para esticar o Body...`);
     await page.evaluate(() => {
         let max = 0;
         let el = document.body;
-        // Encontra o contêiner virtual que aprisiona o conteúdo
+        // Encontra o contêiner virtual mestre que manteve os itens escondidos
         document.querySelectorAll('*').forEach(e => {
             if (e.scrollHeight > max && e.scrollHeight > e.clientHeight) {
                 max = e.scrollHeight;
@@ -45,7 +71,6 @@ async function capture(url, name) {
             }
         });
         
-        // Destrava o Body/HTML para que possam voltar a crescer organicamente
         const style = document.createElement('style');
         style.innerHTML = `
             html, body {
@@ -65,52 +90,31 @@ async function capture(url, name) {
         `;
         document.head.appendChild(style);
         
-        // Destrava ESPECIFICAMENTE a gaiola para que ela "vaze" pro Body limpo acima
+        // Destrava estourando a gaiola detectada para os lados/baixo via reflow
         if (el && el !== document.body && el !== document.documentElement) {
+            el.setAttribute('data-liberado', 'true');
             el.style.setProperty('overflow', 'visible', 'important');
             el.style.setProperty('height', 'auto', 'important');
             el.style.setProperty('max-height', 'none', 'important');
             el.style.setProperty('position', 'static', 'important');
         }
-    });
 
-    // Como height: auto e overflow: visible foram aplicados, a página agora flui organicamente
-    // O window scroll voltará a ativar lazyloads
-    let prevHeight = -1;
-    let retries = 0;
-    while(retries < 3) {
-        await nukePopups();
-        const curHeight = await page.evaluate(() => {
-            window.scrollBy({ top: 800, behavior: 'instant' });
-            return document.documentElement.scrollTop;
-        });
-        await page.waitForTimeout(600);
-        
-        if (curHeight === prevHeight) {
-            retries++; 
-        } else {
-            retries = 0; 
-        }
-        prevHeight = curHeight;
-    }
-
-    // Volta pro topo e converte headers e rodapés "fixed/sticky" para absolutos (Evita repetição no print fullpage)
-    await page.evaluate(() => {
         window.scrollTo(0, 0);
+        // Desaba posições Fixas de rodapés e headers para não se duplicarem por baixo da imagem inteira
         const elements = document.querySelectorAll('*');
-        elements.forEach(el => {
-            const style = window.getComputedStyle(el);
-            if (style.position === 'fixed' || style.position === 'sticky') {
-                el.style.setProperty('position', 'absolute', 'important');
+        elements.forEach(c => {
+            const comp = window.getComputedStyle(c);
+            if (comp.position === 'fixed' || comp.position === 'sticky') {
+                c.style.setProperty('position', 'absolute', 'important');
             }
         });
     });
 
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(3000); // Aguarda tranquilamente o Chrome redesenhar o monstro inteiro
 
-    // Tira print nativo (Agora sim o Playwright vai reconhecer os míticos 7000px de altura)
+    // Tira print total oficial (Como destruímos a altura dos contêineres, o Body é do tamanho do Universo agora)
     await page.screenshot({ path: name, fullPage: true });
-    console.log(`[SKILL: CRO] Artefato salvo: ${name}`);
+    console.log(`[SKILL: CRO] Artefato finalizado do header ao footer com sucesso: ${name}`);
 
   } catch(e) {
     console.log(`[SKILL: CRO] Erro ao capturar ${name}: ${e.message}`);
