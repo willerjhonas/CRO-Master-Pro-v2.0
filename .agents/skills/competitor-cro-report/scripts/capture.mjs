@@ -1,4 +1,5 @@
 import { chromium } from 'playwright';
+import fs from 'fs';
 
 async function capture(url, name) {
   const browser = await chromium.launch({ headless: true }); 
@@ -149,8 +150,6 @@ async function capture(url, name) {
             }
         });
     }, chunks);
-    
-    import fs from 'fs';
     const base64Data = finalDataUrl.replace(/^data:image\/png;base64,/, "");
     fs.writeFileSync(name, Buffer.from(base64Data, 'base64'));
 
