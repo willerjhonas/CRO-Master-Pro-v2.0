@@ -71,17 +71,7 @@ async function capture(url, name) {
     await page.keyboard.press('Home');
     await page.waitForTimeout(3500); // 3.5 segundos cruciais para a animação do smooth scroll voltar fisicamente ao Y=0 !
 
-    // Congele os cabecalhos!
-    console.log(`[SKILL: CRO] Soldando as barras de Header no teto...`);
-    await page.evaluate(() => {
-        document.querySelectorAll('header, .elementor-location-header, [data-elementor-type="header"], .fixed-header, nav').forEach(h => {
-             const comp = window.getComputedStyle(h);
-             if (comp.position === 'fixed' || comp.position === 'sticky') {
-                 h.style.setProperty('position', 'absolute', 'important');
-                 h.style.setProperty('top', '0px', 'important');
-             }
-        });
-    });
+// Retirado bloco solto anterior...
 
     // 3. Batida de Fotos e Avanço da Roda do Mouse
     console.log(`[SKILL: CRO] Iniciando Motor Fotográfico Físico (Mouse Wheel)...`);
@@ -89,16 +79,52 @@ async function capture(url, name) {
     const scrollAmount = 900;
     
     for (let i = 0; i < 11; i++) {
-        await nukePopups(); // Assassino de iframes ativo em tempo real
+        // Scanner Geométrico: Identifica clones de Header JS e Chatbots vivos a cada frame
+        await page.evaluate((isFrameZero) => {
+            document.querySelectorAll('*').forEach(e => {
+                const comp = window.getComputedStyle(e);
+                
+                if (comp.position === 'fixed' || comp.position === 'sticky') {
+                    const rect = e.getBoundingClientRect();
+                    
+                    // 1. Assinatura de Headers Dinâmicos (Muito largos, topo da tela, finos)
+                    // Se passar do frame zero, destruímos o clone para ele não engarrafar a leitura
+                    if (rect.width > 600 && rect.height < 350) {
+                        if (!isFrameZero) {
+                            e.style.setProperty('display', 'none', 'important');
+                            e.style.setProperty('opacity', '0', 'important');
+                        }
+                    }
+                    
+                    // 2. Assinatura de Chatbots, Agentes de Vendas e WhatsApp (Pequenos cantos)
+                    // Destruídos em 100% dos frames impiedosamente se estiverem em fixed
+                    if (rect.width < 500 && rect.height < 500) {
+                        e.style.setProperty('display', 'none', 'important');
+                        e.style.setProperty('opacity', '0', 'important');
+                    }
+                }
+                
+                // Extra: Algumas ferramentas como o blip injetam div master absolute
+                if (comp.position === 'absolute') {
+                    const rect = e.getBoundingClientRect();
+                    if (rect.top > 300 && rect.width < 450 && rect.height < 450 && parseInt(comp.zIndex) > 50) {
+                        e.style.setProperty('display', 'none', 'important');
+                    }
+                }
+            });
+        }, i === 0);
+
+        // Retira tempo para dar chance da tag desaparecer visualmente
+        await page.waitForTimeout(300);
         
         const buf = await page.screenshot({ type: 'png' });
         chunks.push(buf.toString('base64'));
         
-        // Literalmente gira a rodinha do mouse fisicamente em 900 unidades
+        // Gira roda do mouse brutalmente
         await page.mouse.wheel(0, scrollAmount);
         
-        // Espera a inércia suave do Virtual Scroll assentar o chassis da pagina
-        await page.waitForTimeout(1200);
+        // Espera a inércia do Virtual Scroll descer a página fisicamente
+        await page.waitForTimeout(1000);
     }
     
     // 4. Costura
