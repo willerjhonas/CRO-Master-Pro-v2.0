@@ -85,32 +85,28 @@ async function capture(url, name) {
     
     await page.waitForTimeout(3000);
     
-    // Obliterador supremo de amarras (Liberta o Header ao Footer do Fullpage: true)
-    await page.evaluate(() => {
-        const elements = document.querySelectorAll('*');
-        elements.forEach(el => {
-            const style = window.getComputedStyle(el);
-            // Destrava conteineres de scroll limitados a 100vh
-            if (style.overflow === 'hidden' || style.overflowY === 'auto' || style.overflowY === 'scroll') {
-                el.style.setProperty('overflow', 'visible', 'important');
-            }
-            if (style.height === '100vh' || style.maxHeight === '100vh' || (style.height.includes('px') && parseInt(style.height) === window.innerHeight)) {
-                el.style.setProperty('height', 'auto', 'important');
-                el.style.setProperty('max-height', 'none', 'important');
-            }
-            // Corrige overlays sticky costurados nativamente
-            if (style.position === 'fixed' || style.position === 'sticky') {
-                el.style.setProperty('position', 'absolute', 'important');
+    // Identifica dinamicamente qual a DIV raiz que contém a rolagem real da página 
+    // Em sites React/Next.js, muitas vezes a rolagem NÃO é no body, o que quebra o fullPage: true
+    const targetSelector = await page.evaluate(() => {
+        let maxScroll = 0;
+        let mainContainer = document.body;
+        
+        document.querySelectorAll('body, html, div, main, section').forEach(el => {
+            if (el.scrollHeight > maxScroll) {
+                maxScroll = el.scrollHeight;
+                mainContainer = el;
             }
         });
-        window.scrollTo(0, 0); 
+        
+        mainContainer.setAttribute('data-cro-target', 'true');
+        return '[data-cro-target="true"]';
     });
     
-    await page.waitForTimeout(1000); // Aguarda layout rebater
+    await page.waitForTimeout(1000); 
 
-    // Playwright Full Page normal para tirar o print da extensao recriada
-    await page.screenshot({ path: name, fullPage: true });
-    console.log(`[SKILL: CRO] Artefato salvo com sucesso: ${name}`);
+    // O Playwright tira o print nativo daquela DIV expansível, costurando perfeitamente até o footer
+    await page.locator(targetSelector).screenshot({ path: name });
+    console.log(`[SKILL: CRO] Artefato salvo com sucesso: ${name} usando o alvo ${targetSelector}`);
   } catch(e) {
     console.log(`[SKILL: CRO] Erro ao capturar ${name}: ${e.message}`);
   } finally {
