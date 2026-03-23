@@ -14,6 +14,19 @@ async function capture(url, name) {
     await page.goto(url, { waitUntil: 'load', timeout: 60000 });
     console.log(`[SKILL: CRO] URL acessada: ${url}`);
     
+    // Auto-click em botões de cookies, LGPD e remoção de Chatbots agressivos
+    await page.evaluate(() => {
+        const btns = Array.from(document.querySelectorAll('button, a, div[role="button"]'));
+        btns.forEach(btn => {
+            if (/aceitar|concordo|entendi|accept/i.test(btn.innerText)) {
+                try { btn.click(); } catch(e){}
+            }
+        });
+        const killTags = ['#onetrust-consent-sdk', '#usercentrics-root', 'iframe', '.blip-chat-container', '#adopt-accept-all-button', '.cookie-banner'];
+        document.querySelectorAll(killTags.join(',')).forEach(e => e.remove());
+    });
+    await page.waitForTimeout(2000); // Aguarda a animação do cookie sumir
+    
     // Injeta CSS para desligar animações e revelar todo o conteúdo instantaneamente
     await page.evaluate(() => {
         const style = document.createElement('style');
@@ -23,6 +36,11 @@ async function capture(url, name) {
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
                 scroll-behavior: auto !important;
+            }
+            html, body, #root, #__next, main {
+                height: auto !important;
+                max-height: none !important;
+                overflow: visible !important;
             }
             [data-aos], .elementor-invisible, .fade-in, .lazy {
                 opacity: 1 !important;
