@@ -17,7 +17,7 @@ async function capture(url, name) {
   
   try {
     await page.goto(url, { waitUntil: 'load', timeout: 60000 });
-    console.log(`[SKILL: CRO] URL acessada (Canvas Stitcher V2): ${url}`);
+    console.log(`[SKILL: CRO] URL acessada (Canvas Automato): ${url}`);
     
     const nukePopups = async () => {
         try {
@@ -28,23 +28,28 @@ async function capture(url, name) {
         } catch(e) {}
         
         await page.evaluate(() => {
-            // Eliminação nuclear de iframes fixos flutuantes (Chatbots independentes) e overlays
-            document.querySelectorAll('iframe').forEach(ifr => {
-                const c = window.getComputedStyle(ifr);
+            // Eliminação Espacial: Assassina qualquer elemento fixo pequeno no canto da tela (A cova de todos os Chatbots teimosos)
+            document.querySelectorAll('*').forEach(e => {
+                const c = window.getComputedStyle(e);
                 if (c.position === 'fixed' || c.position === 'absolute') {
-                    if (!ifr.src.includes('youtube') && !ifr.src.includes('vimeo')) {
-                        ifr.style.setProperty('display', 'none', 'important');
+                    const rect = e.getBoundingClientRect();
+                    // Se estiver abaixo do cabecalho (y > 300) e pequeno (< 500px), é certeza absoluta que é um widget de IA/Chat/Captacao
+                    // Matamos sem depender de classes ou IDs. Tiro no peito.
+                    if (rect.top > 300 && rect.width < 500 && rect.height < 500) {
+                        e.style.setProperty('display', 'none', 'important');
                     }
                 }
             });
-
-            // Eliminação tradicional por assinatura
-            const killTags = [
-                '[id*="cookie"]', '[class*="cookie"]', '[id*="adopt"]', 
-                'iframe[src*="chat"]', 'iframe[src*="whatsapp"]', 'iframe[src*="jivo"]', 'iframe[src*="tawk"]', '.whatsapp-button', '[class*="whatsapp"]', '[id*="whatsapp"]', 
-                '#blip-chat-container', '#take-chat-window', '#rd-station-chatbot', '.intercom-lightweight-app', '#launcher'
-            ];
-            document.querySelectorAll(killTags.join(',')).forEach(e => e.style.setProperty('display', 'none', 'important'));
+            // Oculta modais overlay
+            document.querySelectorAll('*').forEach(e => {
+               const style = window.getComputedStyle(e);
+               if (style.position === 'fixed' && style.zIndex > 50) {
+                   const txt = e.innerText.toLowerCase();
+                   if (txt.includes('lgpd') || txt.includes('cookie') || txt.includes('privacidade')) {
+                       e.style.setProperty('display', 'none', 'important');
+                   }
+               }
+            });
         });
     };
 
@@ -52,48 +57,22 @@ async function capture(url, name) {
     await page.waitForTimeout(1000);
     await page.mouse.click(720, 450);
 
-    // 1. Lança a Isca Térmica do PageDown
-    console.log(`[SKILL: CRO] Lançando a "Isca de Scroll" para o rastreador matemático...`);
-    await page.keyboard.press('PageDown');
-    await page.waitForTimeout(800);
-
-    // 2. Rastreador descobre QUEM de fato se mexeu
-    await page.evaluate(() => {
-        let max = 0;
-        let masterScroller = document.documentElement;
-        document.querySelectorAll('*').forEach(e => {
-            if (e.scrollTop > max) {
-                max = e.scrollTop;
-                masterScroller = e;
-            }
-        });
-        // Tatuamos a DIV Mestre para comandá-la no loop
-        masterScroller.classList.add('MEU_SCROLLER_SECRETO');
-        console.log("Scroller encontrado:", masterScroller.tagName);
-    });
-
-    // Rola para despertar elementos pesados usando a div mestra
-    console.log(`[SKILL: CRO] Varrendo documento para forçar Lazy Load...`);
+    // 1. Desce até o final real simulando a rodinha do mouse até esgotar a página
+    console.log(`[SKILL: CRO] Disparando engrenagem virtual para forçar Lazy Load no GSAP/Lenis...`);
     for (let i = 0; i < 15; i++) {
         await nukePopups();
-        await page.evaluate(() => {
-            const scroller = document.querySelector('.MEU_SCROLLER_SECRETO') || document.documentElement;
-            scroller.scrollBy({ top: 900, behavior: 'instant' });
-            window.scrollBy({ top: 900, behavior: 'instant' });
-        });
-        await page.waitForTimeout(150);
+        // Emulador exato da roda do mouse -> Engana perfeitamente o Virtual Scroll da Rede Vistorias
+        await page.mouse.wheel(0, 900);
+        await page.waitForTimeout(300);
     }
     
-    // Volta pro topo no scroller verdadeiro
-    await page.evaluate(() => {
-        const scroller = document.querySelector('.MEU_SCROLLER_SECRETO') || document.documentElement;
-        scroller.scrollTop = 0;
-        window.scrollTo(0, 0);
-    });
-    await page.waitForTimeout(1000);
+    // Volta pro topo usando a tecla HOME
+    console.log(`[SKILL: CRO] Retornando ao topo... Aguardando a animação de inércia do site apaziguar...`);
+    await page.keyboard.press('Home');
+    await page.waitForTimeout(3500); // 3.5 segundos cruciais para a animação do smooth scroll voltar fisicamente ao Y=0 !
 
     // Congele os cabecalhos!
-    console.log(`[SKILL: CRO] Ocultando Headers Flutuantes no topo da página...`);
+    console.log(`[SKILL: CRO] Soldando as barras de Header no teto...`);
     await page.evaluate(() => {
         document.querySelectorAll('header, .elementor-location-header, [data-elementor-type="header"], .fixed-header, nav').forEach(h => {
              const comp = window.getComputedStyle(h);
@@ -104,30 +83,26 @@ async function capture(url, name) {
         });
     });
 
-    // 3. Batida de Fotos Precisas
-    console.log(`[SKILL: CRO] Iniciando Motor Canvas V2...`);
+    // 3. Batida de Fotos e Avanço da Roda do Mouse
+    console.log(`[SKILL: CRO] Iniciando Motor Fotográfico Físico (Mouse Wheel)...`);
     const chunks = [];
     const scrollAmount = 900;
     
-    for (let i = 0; i < 9; i++) {
-        await nukePopups(); // Assassina o chatbot recarregado a cada frame
+    for (let i = 0; i < 11; i++) {
+        await nukePopups(); // Assassino de iframes ativo em tempo real
         
         const buf = await page.screenshot({ type: 'png' });
         chunks.push(buf.toString('base64'));
         
-        // Empurra exatamente +900px direto na veia da DIV que controla o site
-        await page.evaluate((H) => {
-            const scroller = document.querySelector('.MEU_SCROLLER_SECRETO') || document.documentElement;
-            scroller.scrollTop += H;
-            // Garantia para window fallback
-            if(scroller === document.documentElement) window.scrollBy({ top: H, behavior: 'instant' });
-        }, scrollAmount);
+        // Literalmente gira a rodinha do mouse fisicamente em 900 unidades
+        await page.mouse.wheel(0, scrollAmount);
         
-        await page.waitForTimeout(400);
+        // Espera a inércia suave do Virtual Scroll assentar o chassis da pagina
+        await page.waitForTimeout(1200);
     }
     
-    // 4. Cola tudo perfeitamente via Canvas e exporta
-    console.log(`[SKILL: CRO] Costurando mega-matriz de pixels...`);
+    // 4. Costura
+    console.log(`[SKILL: CRO] Revelando matriz de fotos...`);
     const finalDataUrl = await page.evaluate(async (b64Array) => {
         return new Promise((resolve) => {
             const H = 900;
@@ -150,6 +125,7 @@ async function capture(url, name) {
             }
         });
     }, chunks);
+    
     const base64Data = finalDataUrl.replace(/^data:image\/png;base64,/, "");
     fs.writeFileSync(name, Buffer.from(base64Data, 'base64'));
 
