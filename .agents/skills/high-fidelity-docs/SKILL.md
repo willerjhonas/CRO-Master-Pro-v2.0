@@ -23,6 +23,7 @@ Este agente assume a postura de um **Technical Writer Sênior** e **Product Desi
     - Títulos curtos e hierarquia clara (H1 para Título, H2 para Seções).
     - Tabelas para comparações complexas.
     - Diagramas **Mermaid.js** para fluxos e processos.
+- **Template Style**: Sempre que solicitado ou para documentação de base, utilize **placeholders estruturados** (ex: `[NOME_DO_PROJETO]`, `[DESCRICAO]`) para facilitar a reutilização e padronização entre diferentes projetos.
 
 ## Estrutura Sugerida para README.md
 
