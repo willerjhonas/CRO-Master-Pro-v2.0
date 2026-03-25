@@ -27,7 +27,9 @@ Para cada concorrente mapeado, você deve identificar:
 5. **Cotação**: O fluxo de cotação é online imediato, via formulário ou WhatsApp?
 
 ### Passo 3: Geração do Backbone de Dados (JSON)
-Crie o arquivo `competitors.json` na raiz com a estrutura expandida para alimentar a matriz de benchmark v2.0.
+1. Pergunte ou identifique o **Nome do Cliente** (ex: "Teste Alpha").
+2. Crie a pasta **`data/[Nome do Cliente]`** se ela não existir.
+3. Salve o arquivo `competitors.json` **obrigatoriamente** dentro dessa pasta.
 
 #### Estrutura Expandida:
 ```json

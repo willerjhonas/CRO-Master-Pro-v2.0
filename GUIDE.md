@@ -12,9 +12,10 @@ Esta é a pasta mais importante. Ela contém a inteligência e as instruções q
 - **`workflows/`**: São os "Manuais de Procedimentos Padrão" (SOPs). O arquivo `run-cro-analysis.md` descreve o passo a passo exato para uma análise completa.
 
 ### 📊 `data/` (O Cofre de Dados)
-Aqui é onde os resultados do seu trabalho são armazenados. 
-- **Privacidade**: No GitHub, esta pasta aparece vazia. No seu computador, ela conterá pastas para cada cliente (ex: `APVS Brasil`).
-- **Conteúdo**: Dentro de cada pasta de cliente, você encontrará o `competitors.json` (dados brutos), a pasta `screenshots/` (fotos dos sites) e o relatório final em HTML.
+Aqui é onde os resultados do seu trabalho são armazenados de forma isolada e organizada.
+- **Estrutura por Cliente**: Cada novo projeto ganha sua própria pasta (ex: `data/APVS Brasil/`).
+- **Subpasta `screenshots/`**: As telas capturadas ficam obrigatoriamente dentro da pasta do respectivo cliente.
+- **Privacidade**: No GitHub, esta pasta aparece vazia. No seu computador, ela contém todos os seus ativos estratégicos.
 
 ### 🎨 `templates/` (O Design System)
 Contém o **`cro_report_master_template.html`**. Este é o "esqueleto" visual de luxo que usamos para gerar os relatórios. Se você quiser mudar cores ou fontes de todos os futuros relatórios, é aqui que deve mexer.

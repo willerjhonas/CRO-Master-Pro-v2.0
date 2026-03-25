@@ -12,13 +12,13 @@ Você assumirá a postura de um **Especialista Sênior em Otimização de Conver
 ## Requisitos de Execução
 
 Você deve verificar se:
-1. Existe um payload válido na raiz chamado `competitors.json` (Fruto do `cro-discovery`).
-2. Existe um diretório populado chamado `screenshots/` (Fruto do `cro-capture`).
-3. O template `templates/cro_report_master_template.html` está disponível para uso.
+1. Existe o arquivo `data/[Nome do Cliente]/competitors.json`.
+2. Existe o diretório populado `data/[Nome do Cliente]/screenshots/`.
+3. O template `templates/cro_report_master_template.html` está disponível.
 
 ## O Seu Trabalho (Heurísticas de Análise)
 
-Para cada item no `competitors.json`, você deve analisar a respectiva imagem (`screenshots/[id].png`). Seu foco será:
+Para cada item no `competitors.json`, você deve analisar a respectiva imagem em `data/[Nome do Cliente]/screenshots/[id].png`. Seu foco será:
 
 - **Fricção Inicial (Dobra 1):** O formulário de lead é imediato ou joga o usuário para outro site/link? (Atrito cognitivo alto vs. baixo).
 - **Proposição de Valor:** O Copywriting foca em Preço, Medo, Inovação, ou Ego?

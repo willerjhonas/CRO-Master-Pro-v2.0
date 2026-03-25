@@ -17,10 +17,10 @@ Você rodará o nosso script oficial do Playwright, que consome o JSON e automat
 
 ### Execução Simples:
 ```bash
-node .agents/skills/cro-capture/scripts/capture.mjs competitors.json
+node .agents/skills/cro-capture/scripts/capture.mjs data/[Nome do Cliente]/competitors.json
 ```
 
-O script salvará todas as varreduras de screenshot dentro da subpasta `screenshots/` criada via ambiente (ex: `screenshots/nomedoconcorrente.png`).
+O script salvará todas as varreduras de screenshot dentro da subpasta **`data/[Nome do Cliente]/screenshots/`** (ex: `data/APVS Brasil/screenshots/nomedoconcorrente.png`).
 
 A largura base da captura será de **1440px**, travada fisicamente no Device Scale Factor e Container Body — impedindo o redimensionamento estúpido por DPI do SO Hospedeiro. 
 
