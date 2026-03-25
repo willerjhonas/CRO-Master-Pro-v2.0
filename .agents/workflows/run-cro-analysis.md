@@ -18,13 +18,10 @@ Este fluxo de trabalho descreve os passos para realizar uma análise competitiva
    - Use a skill `cro-capture` para capturar as landing pages dos concorrentes listados no `competitors.json`.
    - As imagens serão salvas na pasta do cliente.
 
-3. **Análise de CRO**
-   - Use a skill `cro-analyzer` para analisar as screenshots e o `competitors.json`.
-   - O agente aplicará heurísticas de conversão e gerará um relatório HTML premium.
-
-4. **Auditoria Técnica (SquirrelScan)**
+3. **Análise Estratégica & Técnica**
    - Use a skill `audit-website` para realizar uma varredura profunda de SEO, performance e segurança no site principal.
-   - Isso fornecerá dados de saúde do site complementares à análise de UX.
+   - Use a skill `cro-analyzer` para analisar as screenshots e o `competitors.json`.
+   - O agente aplicará heurísticas de conversão e gerará um relatório unificado de inteligência competitiva e saúde técnica.
 
-5. **Organização dos Resultados**
+4. **Organização dos Resultados**
    - Mova os arquivos gerados (relatórios, screenshots e logs de audit) para a pasta `data/[Nome do Cliente]/`.

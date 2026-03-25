@@ -15,8 +15,8 @@ Este repositório contém o **CRO Master Pro (v2.0)**, uma solução integrada p
 ```mermaid
 graph TD
     A[<b>Módulo 1: Discovery</b>] -->|Lista de Concorrentes| B[<b>Módulo 2: Capture</b>]
-    B -->|Full-page Screenshots| C[<b>Módulo 3: Analyzer</b>]
-    C -->|Heurísticas de UX/UI| D[<b>Relatório Executivo</b>]
+    B -->|Full-page Screenshots| C[<b>Módulo 3: Analyzer & Audit</b>]
+    C -->|Heurísticas + Saúde Técnica| D[<b>Relatório Executivo Premium</b>]
 ```
 
 ## ✨ Funcionalidades Principais

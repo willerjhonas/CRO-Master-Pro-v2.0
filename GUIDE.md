@@ -41,13 +41,9 @@ Peça para o agente: *"Faça uma pesquisa de concorrentes para a empresa X no ni
 Peça para o agente: *"Capture as telas dos concorrentes do arquivo da empresa X"*.
 - **O que acontece:** Eu uso a skill `cro-capture` para entrar em cada site, ignorar banners de cookies e tirar "fotos" perfeitas de 1440px.
 
-### 3️⃣ Análise (Strategic Intelligence)
-Peça para o agente: *"Gere o relatório final de CRO para a empresa X"*.
-- **O que acontece:** Eu uso a skill `cro-analyzer` + o `Master Template` para cruzar os dados, identificar atritos de UX e escrever os aprendizados estratégicos.
-
-### 4️⃣ Auditoria Técnica (Technical Health)
-Peça para o agente: *"Faça uma auditoria técnica completa para o site da empresa X"*.
-- **O que acontece:** Eu uso a skill `audit-website` (SquirrelScan) para verificar mais de 230 regras de SEO, performance e segurança, gerando um diagnóstico de saúde técnica complementar.
+### 3️⃣ Análise Estratégica & Técnica (Full Assessment)
+Peça para o agente: *"Gere o relatório de CRO e faça uma auditoria técnica para a empresa X"*.
+- **O que acontece:** Eu executo o `cro-analyzer` + o `audit-website` simultaneamente. Isso cruza dados de UX (heurísticas) com dados técnicos (mais de 230 regras de SEO e performance) para gerar um diagnóstico blindado.
 
 ---
 
