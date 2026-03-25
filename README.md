@@ -1,48 +1,56 @@
-# 📊 [NOME_DO_PROJETO]
+# 📊 CRO Master Pro (v2.0)
 
-[DESCRICAO_CURTA_E_IMPACTANTE]
+Suite de ferramentas avançada para pesquisa de mercado, captura de UI/UX e análise de conversão (CRO).
 
 ---
 
 ## 📌 Resumo Executivo
 
-Este repositório contém a [NOME_DA_SOLUCAO], uma ferramenta projetada para [OBJETIVO_PRINCIPAL]. O sistema [O_QUE_A_SOLUCAO_FAZ_EM_UMA_FRASE], garantindo que [PUBLICO_ALVO] consiga [PRINCIPAL_BENEFICIO].
+Este repositório contém o **CRO Master Pro (v2.0)**, uma solução integrada para realizar auditorias competitivas de alta fidelidade. O sistema automatiza a descoberta de concorrentes, captura interfaces em alta definição e gera relatórios analíticos premium seguindo padrões editoriais de elite, garantindo diagnósticos estratégicos com agilidade e precisão.
 
 ## 🏗️ Fluxo de Funcionamento
 
 ```mermaid
 graph TD
-    A[<b>Etapa 1: Nome</b>] -->|Input| B[<b>Etapa 2: Processamento</b>]
-    B -->|Output| C[<b>Etapa 3: Entrega</b>]
-    C -->|Validação| D[<b>Resultado Final</b>]
+    A[<b>Módulo 1: Discovery</b>] -->|Lista de Concorrentes| B[<b>Módulo 2: Capture</b>]
+    B -->|Full-page Screenshots| C[<b>Módulo 3: Analyzer</b>]
+    C -->|Heurísticas de UX/UI| D[<b>Relatório Executivo</b>]
 ```
 
 ## ✨ Funcionalidades Principais
 
--   **[FUNCIONALIDADE_1]**: [Descricao_Breve].
--   **[FUNCIONALIDADE_2]**: [Descricao_Breve].
--   **[FUNCIONALIDADE_3]**: [Descricao_Breve].
--   **Matriz de Benchmark**: Tabela comparativa responsiva para análise rápida de mercado.
--   **Inteligência Sistematizada**: Skills integradas que garantem consistência e alta fidelidade.
+-   **CRO Discovery**: Pesquisa automatizada baseada em IA para mapear o ecossistema de concorrentes.
+-   **CRO Capture**: Engine de renderização para captura de UI ignorando popups e modais.
+-   **CRO Analyzer**: Escaner analítico que gera relatórios HTML interativos com benchmarking.
+-   **Estrutura Escalável**: Organização modular de clientes e ativos de análise.
 
-## 🚀 Como Visualizar os Resultados
+## 📁 Estrutura do Projeto
 
-[INSTRUCAO_DE_ACESSO_OU_DEPLOY]
+-   `src/`: Scripts de lógica e utilitários de rastreamento.
+-   `data/`: Repositório de resultados organizados por cliente.
+-   `tests/`: Scopes de teste para validação de fluxos.
+-   `.agents/`: Inteligência do agente (Skills e Workflows).
+    -   `skills/`: Habilidades modulares de marketing e análise.
+    -   `workflows/`: Fluxos de trabalho automatizados.
 
-🔗 [**Link para Visualização Online (Live Demo)**]([URL_DO_PROJETO])
+## 🚀 Como Iniciar
+
+Para executar uma análise completa, siga o workflow definido:
+1. Abra o arquivo `.agents/workflows/run-cro-analysis.md`.
+2. Siga as etapas de execução utilizando as skills correspondentes.
 
 ## 🛠️ Stack Técnica
 
 | Componente | Tecnologia | Papel |
 | :--- | :--- | :--- |
-| **Interface** | [TECNOLOGIA] | [PAPEL_NO_PROJETO] |
-| **Linguagem** | [TECNOLOGIA] | [PAPEL_NO_PROJETO] |
-| **Design** | Padrão Medium.com | UX Editorial e Autoridade |
-| **Controle** | Git / GitHub | Sincronização e Versionamento |
+| **Logic** | Node.js / Playwright | Automação e Scraping |
+| **Analysis** | Agentic AI Skills | Diagnóstico e Heurísticas |
+| **Design** | Editorial High-Fidelity | UX Premium |
+| **Storage** | Estrutura Local | Persistência de Dados |
 
 ---
 > [!TIP]
-> **Dica Executiva**: [DICA_ESTRATEGICA_PARA_O_LEITOR].
+> **Dica Executiva**: Sempre revise o `competitors.json` gerado pelo Discovery antes de iniciar o Capture para garantir que o benchmarking esteja focado nos players certos.
 
 ---
-© 2026 [NOME_DA_EMPRESA] · [DEPARTAMENTO]
+© 2026 APVS Brasil · Inteligência Estratégica

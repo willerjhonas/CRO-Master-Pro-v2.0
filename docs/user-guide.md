@@ -1,11 +1,11 @@
-# 📖 Guia do Usuário: Suite CRO Pro
+# 📖 Guia do Usuário: CRO Master Pro (v2.0)
 
-Este guia orienta sobre como utilizar a suite para realizar auditorias de conversão de alto impacto.
+Este guia orienta sobre como utilizar o sistema para realizar auditorias de conversão de alto impacto.
 
 ---
 
 ## 📌 Introdução
-A **Suite CRO Pro** foi desenvolvida para automatizar o processo de benchmark competitivo, permitindo que gestores e designers identifiquem rapidamente gaps de conversão em seus projetos.
+O **CRO Master Pro (v2.0)** foi desenvolvido para automatizar o processo de benchmark competitivo, permitindo que gestores e designers identifiquem rapidamente gaps de conversão em seus projetos.
 
 ## 🚀 Como Executar uma Auditoria
 
@@ -35,4 +35,4 @@ O passo final transforma imagens e dados em um relatório editorial.
 > **Dica**: Sempre revise o relatório final no mobile, pois o `cro-analyzer` otimiza a tabela para scroll horizontal.
 
 ---
-© 2026 APVS Brasil · [NOME_DO_DEPARTAMENTO]
+© 2026 APVS Brasil · Inteligência Estratégica
