@@ -12,10 +12,9 @@ Esta é a pasta mais importante. Ela contém a inteligência e as instruções q
 - **`workflows/`**: São os "Manuais de Procedimentos Padrão" (SOPs). O arquivo `run-cro-analysis.md` descreve o passo a passo exato para uma análise completa.
 
 ### 📊 `data/` (O Cofre de Dados)
-Aqui é onde os resultados do seu trabalho são armazenados de forma isolada e organizada.
-- **Estrutura por Cliente**: Cada novo projeto ganha sua própria pasta (ex: `data/APVS Brasil/`).
-- **Subpasta `screenshots/`**: As telas capturadas ficam obrigatoriamente dentro da pasta do respectivo cliente.
-- **Privacidade**: No GitHub, esta pasta aparece vazia. No seu computador, ela contém todos os seus ativos estratégicos.
+Aqui é onde os resultados do seu trabalho são armazenados. 
+- **Privacidade**: No GitHub, esta pasta aparece vazia. No seu computador, ela conterá pastas para cada cliente (ex: `APVS Brasil`).
+- **Conteúdo**: Dentro de cada pasta de cliente, você encontrará o `competitors.json` (dados brutos), a pasta `screenshots/` (fotos dos sites) e o relatório final em HTML.
 
 ### 🎨 `templates/` (O Design System)
 Contém o **`cro_report_master_template.html`**. Este é o "esqueleto" visual de luxo que usamos para gerar os relatórios. Se você quiser mudar cores ou fontes de todos os futuros relatórios, é aqui que deve mexer.
@@ -27,29 +26,28 @@ Contém manuais detalhados de uso e especificações técnicas sobre como o moto
 - **`README.md`**: A página de entrada do projeto no GitHub.
 - **`.gitignore`**: As regras de privacidade. Ele garante que seus dados de clientes (`data/`) nunca vazem para a internet.
 - **`package.json`**: Lista as ferramentas de infraestrutura (como o Playwright) que usamos para capturar as telas.
-- **`.claude` & `.windsurf`**: São as "pastas de metadados" que guardam o contexto da minha inteligência. Elas ajudam a IA a lembrar como o seu projeto funciona. **Importante**: Não recomendo deletá-las se quiser manter o histórico de decisões do agente.
 
 ---
 
-## 🚀 Como usar: O Guia de Comandos
+## 🚀 Como usar: O Fluxo de Ouro
 
-Aqui estão os "prompts" mágicos que você deve usar para que eu opere cada módulo com perfeição:
+Para realizar uma análise impecável, siga estes 3 passos:
 
 ### 1️⃣ Descoberta (Market Discovery)
-Peça isto:
-> *"Pesquise 5 concorrentes diretos no nicho de [Nicho, ex: Proteção Veicular] para a empresa [Nome do Cliente]. Gere o competitors.json na pasta do cliente."*
+Peça para o agente: *"Faça uma pesquisa de concorrentes para a empresa X no nicho Y"*.
+- **O que acontece:** Eu uso a skill `cro-discovery` para mapear os players, suas propostas de valor e gerar o arquivo de base.
 
 ### 2️⃣ Captura (High-Def Capture)
-Peça isto:
-> *"Use o arquivo competitors.json da pasta [Nome do Cliente] para capturar screenshots de todos os concorrentes. Use resolução full-page de 1440px."*
+Peça para o agente: *"Capture as telas dos concorrentes do arquivo da empresa X"*.
+- **O que acontece:** Eu uso a skill `cro-capture` para entrar em cada site, ignorar banners de cookies e tirar "fotos" perfeitas de 1440px.
 
 ### 3️⃣ Análise (Strategic Intelligence)
-Peça isto:
-> *"Gere o relatório final de análise competitiva para [Nome do Cliente] usando o Master Template v2.0. Foque em identificar Atritos e Aprendizados estratégicos de UX/UI."*
+Peça para o agente: *"Gere o relatório final de CRO para a empresa X"*.
+- **O que acontece:** Eu uso a skill `cro-analyzer` + o `Master Template` para cruzar os dados, identificar atritos de UX e escrever os aprendizados estratégicos.
 
 ---
 
-## 💡 Dicas de Mestre: Como ter a melhor experiência
+## 💡 Dicas de Mestre
 
 - **Nunca use "Landing Page"**: O sistema foi padronizado para usar o termo **"Site"**, garantindo um tom mais corporativo e institucional.
 - **Revise o JSON**: Entre o passo 1 e 2, dê uma olhada no `competitors.json`. Você pode remover ou adicionar URLs manualmente se quiser refinar o benchmarking.
