@@ -1,0 +1,52 @@
+[
+  {
+    "id": "musa",
+    "name": "Musa",
+    "url": "https://musa.co/",
+    "valueProposition": "Gestão Inteligente de Resíduos — ecossistema completo para coleta, transporte e destinação de resíduos Classe I, Classe II e Recicláveis, com compliance automático, rastreabilidade total e MTR automatizado.",
+    "hasApp": true,
+    "socialProof": "+750 empresas atendidas / Clientes: Athié Wohnrath, SBT, e outros líderes de mercado",
+    "ambassadors": "Nenhum",
+    "quoteType": "Form"
+  },
+  {
+    "id": "ambisis",
+    "name": "Ambisis",
+    "url": "https://ambisis.com.br/",
+    "valueProposition": "Ganhe produtividade com a IA do software de gestão ambiental mais completo do mercado — Centralize informações, automatize tarefas, reduza riscos e transforme dados em inteligência ambiental sem esforço com tecnologia especializada.",
+    "hasApp": true,
+    "socialProof": "Referência em compliance ambiental com IA / Utilizado por indústrias de múltiplos segmentos",
+    "ambassadors": "Nenhum",
+    "quoteType": "Form"
+  },
+  {
+    "id": "meuresiduo",
+    "name": "meuResíduo",
+    "url": "https://meuresiduo.com/",
+    "valueProposition": "Plataforma SaaS que entrega rastreabilidade da informação dos seus resíduos da geração à destinação — emissão e monitoramento de MTR, CDFs, controle de rotas e coletas 100% online.",
+    "hasApp": true,
+    "socialProof": "Escolhido Negócio Destaque do Capital Empreendedor / Clientes: MRN, CEJAM, PROAMB, FUPASC",
+    "ambassadors": "Nenhum",
+    "quoteType": "Form"
+  },
+  {
+    "id": "tree-esg",
+    "name": "Tree ESG",
+    "url": "https://tree-esg.com/",
+    "valueProposition": "Todos os processos ambientais da sua empresa conectados em uma única plataforma — Gestão de Resíduos, Logística Reversa, Licenças, Homologação de Fornecedores, Água, Efluentes, Emissões e ESG integrados.",
+    "hasApp": false,
+    "socialProof": "Conformidade em até 30 dias / Plataforma integrada para auditorias e fiscalização",
+    "ambassadors": "Nenhum",
+    "quoteType": "Form"
+  },
+  {
+    "id": "vertown",
+    "name": "Vertown",
+    "url": "https://vertown.com/",
+    "valueProposition": "Inteligência na gestão de resíduos para sua empresa ser sustentável hoje — Análise preditiva, dashboards interativos, emissão de MTR e CDF, auditoria ESG e gestão de múltiplas unidades.",
+    "hasApp": false,
+    "socialProof": "+80 empresas / 72% de redução de resíduos / 48% de economia reportados por clientes",
+    "ambassadors": "Nenhum",
+    "quoteType": "Form"
+  }
+]

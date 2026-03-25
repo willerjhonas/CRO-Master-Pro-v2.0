@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise Competitiva: Gera</title>
+    <!-- Fonts: Spectral (Serif) and Inter (Sans-serif) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --medium-black: #242424;
+            --medium-gray: #757575;
+            --medium-light-gray: #f2f2f2;
+            --medium-green: #1a8917;
+            --medium-border: #f0f0f0;
+            --body-max-width: 740px;
+        }
+
+        hr {
+            border: 0;
+            border-top: 1px solid var(--medium-border);
+            margin: 60px 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Spectral', Georgia, serif;
+            color: var(--medium-black);
+            background-color: #ffffff;
+            line-height: 1.58;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            font-size: 21px;
+        }
+
+        .container {
+            max-width: var(--body-max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding-top: 50px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1.25;
+            letter-spacing: -0.015em;
+            margin-bottom: 12px;
+            color: var(--medium-black);
+        }
+
+        .subtitle {
+            font-size: 22px;
+            color: var(--medium-gray);
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            margin-bottom: 24px;
+            line-height: 1.35;
+        }
+
+        .metadata {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--medium-gray);
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--medium-border);
+            padding-bottom: 24px;
+        }
+
+        .author-img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--medium-light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--medium-black);
+            font-size: 18px;
+        }
+
+        .author-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            color: var(--medium-black);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .nav-wrapper {
+            position: sticky;
+            top: 0;
+            background: #ffffff;
+            border-bottom: 1px solid #eee;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .nav-bar {
+            width: 100%;
+            margin: 0 auto;
+            overflow-x: auto;
+            display: flex;
+            gap: 24px;
+            padding: 24px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 900px) {
+            .nav-bar {
+                justify-content: flex-start;
+            }
+        }
+
+        .nav-link {
+            font-family: 'Inter', sans-serif;
+            text-decoration: none;
+            color: var(--medium-gray);
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--medium-black);
+        }
+
+        h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-top: 64px;
+            margin-bottom: 24px;
+            color: var(--medium-black);
+            scroll-margin-top: 100px;
+            letter-spacing: -0.02em;
+        }
+
+        h3 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 16px;
+            font-family: 'Spectral', serif;
+        }
+
+        h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 32px 0 12px 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--medium-black);
+        }
+
+        p {
+            font-size: 21px;
+            margin-bottom: 24px;
+            color: var(--medium-black);
+        }
+
+        strong {
+            font-weight: 700;
+        }
+
+        .insight {
+            background-color: #f7f7f7;
+            padding: 28px;
+            margin: 40px 0;
+            border-left: 2px solid var(--medium-green);
+            font-size: 18px;
+            line-height: 1.6;
+            font-family: 'Inter', sans-serif;
+            color: #444;
+        }
+
+        .box {
+            border-left: 3px solid var(--medium-black);
+            padding-left: 20px;
+            margin: 32px 0;
+            font-style: italic;
+            font-size: 21px;
+            color: var(--medium-gray);
+        }
+
+        ul.sub-list {
+            margin-bottom: 32px;
+            padding-left: 0;
+        }
+
+        ul.sub-list li {
+            font-size: 21px;
+            margin-bottom: 16px;
+            list-style: none;
+            position: relative;
+            padding-left: 28px;
+        }
+
+        ul.sub-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 14px;
+            width: 6px;
+            height: 6px;
+            background: var(--medium-green);
+            border-radius: 50%;
+        }
+
+        .pill-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+            padding: 0;
+        }
+
+        .pill-list li {
+            background: var(--medium-light-gray);
+            color: var(--medium-black);
+            font-size: 14px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .atrito-box,
+        .oportunidade-box {
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 18px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .atrito-box {
+            background: #fdecea;
+            border-left: 4px solid #c0392b;
+        }
+
+        .atrito-box .label {
+            color: #c0392b;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .oportunidade-box {
+            background: #e6f7ef;
+            border-left: 4px solid #1a9e5c;
+        }
+
+        .oportunidade-box .label {
+            color: #1a9e5c;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .image-container {
+            margin: 48px 0;
+            background: #ffffff;
+            border: 1px solid #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .image-scroll {
+            width: 100%;
+            height: 500px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .image-scroll img {
+            width: 100%;
+            display: block;
+        }
+
+        .image-caption {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--medium-gray);
+            text-align: center;
+            padding: 12px;
+            border-top: 1px solid var(--medium-border);
+        }
+
+        .comparison-table-wrapper {
+            margin: 48px -40px;
+            overflow-x: auto;
+            border: 1px solid #f0f0f0;
+            border-radius: 4px;
+            background: #fff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            min-width: 900px;
+        }
+
+        th {
+            background: #fafafa;
+            color: #757575;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 16px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            text-align: left;
+        }
+
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #f6f6f6;
+            color: #242424;
+            line-height: 1.4;
+        }
+
+        .highlight-row {
+            background: #fffdf5;
+            font-weight: 600;
+        }
+
+        .check {
+            color: var(--medium-green);
+            font-weight: 700;
+        }
+
+        .cross {
+            color: #c0392b;
+        }
+
+        .partial {
+            color: #e07b00;
+        }
+
+        .rec-content h4 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            color: var(--medium-black);
+        }
+
+        .rec-content p {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .rec-tag {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-right: 8px;
+            margin-bottom: 4px;
+        }
+
+        .tag-output {
+            background: #e8eefb;
+            color: #003ebc;
+        }
+
+        .tag-impact {
+            background: #e6f7ef;
+            color: #1a9e5c;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            margin-top: 40px;
+        }
+
+        .insight-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .insight-num {
+            font-family: 'Inter', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #eee;
+            line-height: 1;
+            margin-bottom: 12px;
+        }
+
+        .insight-card h4 {
+            margin-top: 0;
+            font-size: 22px;
+        }
+
+        @media (max-width: 740px) {
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table-wrapper {
+                margin: 48px 0;
+            }
+        }
+
+        footer {
+            margin-top: 80px;
+            padding: 80px 0;
+            border-top: 1px solid var(--medium-border);
+            color: var(--medium-gray);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="nav-wrapper">
+        <nav class="nav-bar">
+            <a href="#metodologia" class="nav-link">Metodologia</a>
+            <a href="#diagnostico" class="nav-link">Diagnóstico</a>
+            <a href="#players" class="nav-link">Players</a>
+            <a href="#benchmark" class="nav-link">Benchmark</a>
+            <a href="#lacunas" class="nav-link">Lacunas</a>
+            <a href="#insights" class="nav-link">Insights</a>
+            <a href="#glossario" class="nav-link" style="color: var(--medium-green)">Glossário</a>
+        </nav>
+    </div>
+
+    <article class="container">
+        <header>
+            <h1>Análise Competitiva: Gera</h1>
+            <p class="subtitle">Inteligência de Mercado e Auditoria de Conversão no Setor de Gestão de Resíduos</p>
+
+            <div class="metadata">
+                <div class="author-img">IE</div>
+                <div class="author-info">
+                    <span class="author-name">Inteligência Estratégica</span>
+                    <span>25 de Março de 2026 · 12 min de leitura</span>
+                </div>
+            </div>
+
+            <div class="insight">
+                O setor de gestão de resíduos está em plena transformação digital. Concorrentes como Musa e Vertown estão subindo a barra da experiência do usuário (UX) com interfaces "premium" e foco em dados ESG. A Gera possui uma base sólida, mas precisa modernizar sua jornada de conversão para competir no topo do funil.
+            </div>
+        </header>
+
+        <!-- Section: Metodologia -->
+        <section id="metodologia">
+            <h2>Metodologia e Critérios</h2>
+            <p>A presente análise utiliza o framework <strong>CRO Pro v2.0</strong>, focando em heurísticas de usabilidade, psicologia de marketing e análise de autoridade digital.</p>
+
+            <div class="insights-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+                <div class="insight-card">
+                    <h4>Pilar UX/UI</h4>
+                    <p>Avaliação de contraste, hierarquia visual e facilidade de navegação entre seções críticas.</p>
+                </div>
+                <div class="insight-card">
+                    <h4>Pilar Copywriting</h4>
+                    <p>Análise da proposta de valor, tom de voz e clareza dos CTAs (Call to Actions).</p>
+                </div>
+                <div class="insight-card">
+                    <h4>Pilar Social Proof</h4>
+                    <p>Verificação de sinais de confiança, logotipos de clientes e métricas de impacto reportadas.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- Section: Diagnóstico -->
+        <section id="diagnostico">
+            <h2>Diagnóstico Interno — Gera</h2>
+            <p>O site atual da Gera apresenta uma comunicação direta e focada no produto. No entanto, comparado ao mercado, há oportunidades claras de otimização.</p>
+            
+            <div class="image-container">
+                <div class="image-scroll">
+                    <img src="screenshots/gera.png" alt="Gera Website">
+                </div>
+                <div class="image-caption">Snapshot atual: Geraapp.com</div>
+            </div>
+
+            <div class="atrito-box">
+                <span class="label">Ponto de Atrito</span>
+                A jornada de conversão é centrada em formulários estáticos, o que pode gerar resistência em tomadores de decisão que buscam soluções rápidas e eficientes.
+            </div>
+
+            <div class="oportunidade-box">
+                <span class="label">Oportunidade de Melhoria</span>
+                Implementar calculadoras de economia ou diagnósticos rápidos de conformidade (compliance) para aumentar o engajamento no topo do funil.
+            </div>
+        </section>
+
+        <hr>
+
+        <h2 id="players">Análise dos Players</h2>
+        <p>Abaixo, detalhamos a estratégia digital dos 5 principais concorrentes mapeados.</p>
+
+        <!-- Player: Musa -->
+        <div id="player-musa">
+            <h3>01. Musa</h3>
+            <p>A Musa é hoje o player com a interface mais moderna do setor. Utiliza animações complexas para transmitir uma sensação de "tecnologia de ponta".</p>
+            <div class="image-container">
+                <div class="image-scroll">
+                    <img src="screenshots/musa.png" alt="Musa Website">
+                </div>
+                <div class="image-caption">Musa.co: Referência em design e storytelling visual.</div>
+            </div>
+            <ul class="sub-list">
+                <li><strong>Proposta:</strong> Ecossistema digital inteligente de resíduos.</li>
+                <li><strong>Social Proof:</strong> Lista robusta de clientes como SBT e Burger King.</li>
+            </ul>
+            <div class="atrito-box">
+                <span class="label">Ponto de Atrito</span>
+                Uso excessivo de GSAP/ScrollTrigger pode tornar a navegação pesada em dispositivos móveis ou conexões lentas.
+            </div>
+            <div class="oportunidade-box">
+                <span class="label">Aprendizado</span>
+                O uso de "Modo Escuro" com fontes Serifadas (Spectral) cria uma percepção de valor prêmio (Premium SaaS).
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Player: Ambisis -->
+        <div id="player-ambisis">
+            <h3>02. Ambisis</h3>
+            <p>Foca agressivamente em Inteligência Artificial para gestão ambiental, posicionando-se como "o software mais completo".</p>
+            <div class="image-container">
+                <div class="image-scroll">
+                    <img src="screenshots/ambisis.png" alt="Ambisis Website">
+                </div>
+                <div class="image-caption">Ambisis.com.br: Foco em produtividade via IA.</div>
+            </div>
+            <ul class="sub-list">
+                <li><strong>Proposta:</strong> Produtividade e redução de riscos via IA.</li>
+                <li><strong>Diferencial:</strong> Abordagem técnica e orientada a conformidade pesada.</li>
+            </ul>
+            <div class="atrito-box">
+                <span class="label">Ponto de Atrito</span>
+                A linguagem é excessivamente técnica ("IA Ambiental" vs "Solução"), o que pode alienar gestores que buscam simplicidade.
+            </div>
+            <div class="oportunidade-box">
+                <span class="label">Aprendizado</span>
+                Posicionar a automação de conformidade como um ganho direto de produtividade (horas salvas) é um diferencial que a Gera deve enfatizar.
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Player: meuResíduo -->
+        <div id="player-meuresiduo">
+            <h3>03. meuResíduo</h3>
+            <p>Plataforma SaaS consolidada com foco total em rastreabilidade e logística 100% online.</p>
+            <div class="image-container">
+                <div class="image-scroll">
+                    <img src="screenshots/meuresiduo.png" alt="meuResíduo Website">
+                </div>
+                <div class="image-caption">meuresiduo.com: Foco operacional e prático.</div>
+            </div>
+            <ul class="sub-list">
+                <li><strong>Proposta:</strong> Rastreabilidade da geração à destinação.</li>
+                <li><strong>Social Proof:</strong> Selos de premiação e clientes institucionais fortes.</li>
+            </ul>
+            <div class="atrito-box">
+                <span class="label">Ponto de Atrito</span>
+                A estética visual datada reduz a percepção de "SaaS Moderno", o que pode ser um ponto fraco na venda para empresas de tecnologia.
+            </div>
+            <div class="oportunidade-box">
+                <span class="label">Aprendizado</span>
+                A transparência total na rastreabilidade (da geração ao destino) é o recurso mais valorizado por auditorias externas; deve ser o pilar central da Gera.
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Player: Tree ESG -->
+        <div id="player-tree">
+            <h3>04. Tree ESG</h3>
+            <p>Abordagem integrada de ESG, conectando todos os processos ambientais em uma única plataforma.</p>
+            <div class="image-container">
+                <div class="image-scroll">
+                    <img src="screenshots/tree-esg.png" alt="Tree ESG Website">
+                </div>
+                <div class="image-caption">tree-esg.com: Rapidez na implementação (30 dias).</div>
+            </div>
+            <div class="atrito-box">
+                <span class="label">Ponto de Atrito</span>
+                O foco rígido em conformidade normativa negligencia a facilidade de uso diário do operador de ponta.
+            </div>
+            <div class="oportunidade-box">
+                <span class="label">Aprendizado</span>
+                A promessa de "Conformidade em 30 dias" é o melhor gatilho de urgência do mercado. A Gera pode oferecer um "Onboarding Turbo" similar.
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Player: Vertown -->
+        <div id="player-vertown">
+            <h3>05. Vertown</h3>
+            <p>Forte em análise preditiva e dashboards. Usa métricas reais (porcentagens de economia) para convencer o usuário.</p>
+            <div class="image-container">
+                <div class="image-scroll">
+                    <img src="screenshots/vertown.png" alt="Vertown Website">
+                </div>
+                <div class="image-caption">vertown.com: Resultados quantitativos expostos na home.</div>
+            </div>
+            <div class="atrito-box">
+                <span class="label">Ponto de Atrito</span>
+                O excesso de dashboards e gráficos já na Home pode causar parálise de análise em usuários menos analíticos.
+            </div>
+            <div class="oportunidade-box">
+                <span class="label">Aprendizado</span>
+                Traduzir o impacto ambiental diretamente em economia financeira ($) é o argumento final que convence o Board (C-Level).
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Section: Benchmark -->
+        <section id="benchmark">
+            <h2>Matriz de Benchmark — Comparativa</h2>
+            <p>Avaliação técnica das funcionalidades e presença digital.</p>
+
+            <div class="comparison-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recurso / Player</th>
+                            <th>Musa</th>
+                            <th>Ambisis</th>
+                            <th>meuResíduo</th>
+                            <th>Tree ESG</th>
+                            <th>Vertown</th>
+                            <th class="highlight-row">Gera</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mobile App</td>
+                            <td class="check">✔</td>
+                            <td class="check">✔</td>
+                            <td class="check">✔</td>
+                            <td class="cross">✗</td>
+                            <td class="cross">✗</td>
+                            <td class="check">✔</td>
+                        </tr>
+                        <tr>
+                            <td>Automação MTR/CDF</td>
+                            <td class="check">✔</td>
+                            <td class="check">✔</td>
+                            <td class="check">✔</td>
+                            <td class="check">✔</td>
+                            <td class="check">✔</td>
+                            <td class="check">✔</td>
+                        </tr>
+                        <tr>
+                            <td>Dashboards IA</td>
+                            <td class="check">✔</td>
+                            <td class="check">✔</td>
+                            <td class="partial">⚡</td>
+                            <td class="partial">⚡</td>
+                            <td class="check">✔</td>
+                            <td class="partial">⚡</td>
+                        </tr>
+                        <tr>
+                            <td>Suporte ESG/B-Corp</td>
+                            <td class="check">✔</td>
+                            <td class="partial">⚡</td>
+                            <td class="partial">⚡</td>
+                            <td class="check">✔</td>
+                            <td class="check">✔</td>
+                            <td class="partial">⚡</td>
+                        </tr>
+                        <tr>
+                            <td>UX Design Premium</td>
+                            <td class="check">✔</td>
+                            <td class="partial">⚡</td>
+                            <td class="partial">⚡</td>
+                            <td class="partial">⚡</td>
+                            <td class="check">✔</td>
+                            <td class="partial">⚡</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="font-size:13px; color: var(--medium-gray);">Legenda: ⚡ Parcial · ✔ Forte · ✗ Ausente</p>
+        </section>
+
+        <hr>
+
+        <!-- Section: Lacunas -->
+        <section id="lacunas">
+            <h2>Mapa de Lacunas — Gera vs Mercado</h2>
+            <p>Identificamos três áreas onde a Gera pode avançar para se tornar líder absoluta.</p>
+
+            <div class="insights-grid" style="gap: 24px;">
+                <div class="insight-card">
+                    <h4>Storytelling Digital</h4>
+                    <p>Musa e Vertown não vendem apenas "software", vendem "Sustentabilidade Inteligente". A Gera precisa elevar sua narrativa para o nível executivo.</p>
+                </div>
+                <div class="insight-card">
+                    <h4>Prova Social Quantitativa</h4>
+                    <p>Exibir % de redução de custos ou toneladas gerenciadas em destaque (como a Vertown faz) aumenta a conversão em até 40%.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- Section: Insights e Oportunidades -->
+        <section id="insights">
+            <h2>💡 Insights e Oportunidades Estratégicas</h2>
+            <p>Principais alavancas de crescimento pós-análise.</p>
+
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <span class="insight-num">01</span>
+                    <h4>Gamificação do ESG</h4>
+                    <p>Crie um ranking ou score de sustentabilidade dentro do Dashboard da Gera. Isso gera "stickiness" (retenção).</p>
+                </div>
+                <div class="insight-card">
+                    <span class="insight-num">02</span>
+                    <h4>Calculadora de Impacto</h4>
+                    <p>Coloque uma calculadora na home: "Quanto você economiza com gestão correta?". Capture o lead no final do cálculo.</p>
+                </div>
+                 <div class="insight-card">
+                    <span class="insight-num">03</span>
+                    <h4>Foco em Mobile UX</h4>
+                    <p>Dado que a maioria dos operadores de campo usam celular, o site deve ser 100% otimizado para navegação com um polegar.</p>
+                </div>
+                <div class="insight-card">
+                    <span class="insight-num">04</span>
+                    <h4>Conteúdo de Autoridade</h4>
+                    <p>A Ambisis lidera em SEO técnico. A Gera deve investir em webinars e Whitepapers sobre novas legislações ambientais de 2026.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- Section: Glossário -->
+        <section id="glossario">
+            <h2>📖 Glossário Estratégico</h2>
+            <div class="insights-grid" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+                <div><strong>MTR:</strong> Manifesto de Transporte de Resíduos.</div>
+                <div><strong>CDF:</strong> Certificado de Destinação Final.</div>
+                <div><strong>CRO:</strong> Conversion Rate Optimization.</div>
+                <div><strong>ESG:</strong> Environmental, Social, and Governance.</div>
+            </div>
+        </section>
+
+    </article>
+
+    <footer>
+        <strong>Gera — Análise Competitiva</strong><br>
+        © 2026 Gera · Inteligência Estratégica
+    </footer>
+
+</body>
+
+</html>
