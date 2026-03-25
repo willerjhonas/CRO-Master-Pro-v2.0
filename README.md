@@ -2,6 +2,8 @@
 
 Suite de ferramentas avançada para pesquisa de mercado, captura de UI/UX e análise de conversão (CRO).
 
+👉 **[Leia o Guia Didático de Uso (GUIDE.md)](./GUIDE.md)**
+
 ---
 
 ## 📌 Resumo Executivo
